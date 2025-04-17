@@ -29,6 +29,7 @@ articles.forEach((article) => {
   btn.style.marginLeft = "8px";
   btn.style.padding = "4px 8px";
   btn.style.cursor = "pointer";
+  btn.style.color = "#fff";
 
   btn.onclick = () => {
     const fullTitle = `${dateText} — ${title}`;
