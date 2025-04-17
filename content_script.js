@@ -53,21 +53,27 @@ articles.forEach((article) => {
       monthMap[monStr] != null ? monthMap[monStr] : new Date().getMonth();
     const [hour = "0", min = "0"] = timeText.split(":");
 
-    const startDT = new Date();
-    startDT.setMonth(month);
-    startDT.setDate(parseInt(dayNum, 10));
-    startDT.setHours(parseInt(hour, 10), parseInt(min, 10), 0);
+    const localDT = new Date();
+    localDT.setMonth(month);
+    localDT.setDate(parseInt(dayNum, 10));
+    localDT.setHours(parseInt(hour, 10), parseInt(min, 10), 0);
+
+    // Convertir de hora local a hora de Guadalajara
+    const guadalajaraTime = new Date(
+      localDT.toLocaleString("en-US", { timeZone: "America/Mexico_City" })
+    );
+    const startDT = new Date(guadalajaraTime);
     const endDT = new Date(startDT.getTime() + 60 * 60 * 1000);
 
     // Formato específico de Google Calendar
     const formatGCal = (dt) =>
-      dt.getFullYear().toString() +
-      String(dt.getMonth() + 1).padStart(2, "0") +
-      String(dt.getDate()).padStart(2, "0") +
+      dt.getUTCFullYear().toString() +
+      String(dt.getUTCMonth() + 1).padStart(2, "0") +
+      String(dt.getUTCDate()).padStart(2, "0") +
       "T" +
-      String(dt.getHours()).padStart(2, "0") +
-      String(dt.getMinutes()).padStart(2, "0") +
-      String(dt.getSeconds()).padStart(2, "0") +
+      String(dt.getUTCHours()).padStart(2, "0") +
+      String(dt.getUTCMinutes()).padStart(2, "0") +
+      String(dt.getUTCSeconds()).padStart(2, "0") +
       "Z";
 
     // Payload final
